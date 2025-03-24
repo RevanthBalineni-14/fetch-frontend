@@ -1,53 +1,60 @@
-import {useState, useCallback} from 'react';
+import { useState, useCallback } from 'react';
 
-export default function useFetchData(){
+export default function useFetchData() {
+    // State variables to manage search IDs, dog data, loading state, and errors
     const [searchIds, setSearchIds] = useState([]);
     const [dogData, setDogData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null)
-    
-    const fetchDogData = useCallback(async (searchParams)=>{
-        setIsLoading(true);
-        setError(null);
-        // console.log(`${import.meta.env.VITE_BASE_URL}`)
+    const [error, setError] = useState(null);
+
+    // Function to fetch dog data based on search parameters
+    const fetchDogData = useCallback(async (searchParams) => {
+        setIsLoading(true); // Set loading state to true
+        setError(null); // Reset error state
+
+        // Construct the search URL with query parameters
         let url = `${import.meta.env.VITE_BASE_URL}/dogs/search?`;
-        searchParams.forEach((value, key)=>{
+        searchParams.forEach((value, key) => {
             url += `${key}=${value}&`;
             console.log(`${key}=${value}&`);
-        })
-        url = url.substring(0, url.length-1);
-        
-        try{
+        });
+        url = url.substring(0, url.length - 1); // Remove the trailing '&'
+
+        try {
+            // Fetch search IDs based on search parameters
             const response = await fetch(url, {
-                method : 'GET',
+                method: 'GET',
                 headers: {},
                 credentials: 'include',
             });
             console.log(response);
-            if(!response.ok){
-                throw(new Error("Failed to fetch dogs id's based on search params"));
+            if (!response.ok) {
+                throw new Error("Failed to fetch dogs id's based on search params");
             }
             const data = await response.json();
-            setSearchIds(data);
+            setSearchIds(data); // Set the search IDs
 
-            const dogResponse  = await fetch(`${import.meta.env.VITE_BASE_URL}/dogs`, {
+            // Fetch dog data based on the result IDs
+            const dogResponse = await fetch(`${import.meta.env.VITE_BASE_URL}/dogs`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify(data.resultIds)
+                body: JSON.stringify(data.resultIds),
             });
-            if(!dogResponse.ok){
+            if (!dogResponse.ok) {
                 throw new Error("Failed to fetch dog data based on the resultIds");
             }
             const dogsData = await dogResponse.json();
-            setDogData(dogsData);
-        }catch(err){
+            setDogData(dogsData); // Set the dog data
+        } catch (err) {
             console.log(err);
-            setError(err.message || "Something went wrong")
+            setError(err.message || "Something went wrong"); // Set error message
         }
-        setIsLoading(false);
+        setIsLoading(false); // Set loading state to false
     }, []);
-    return {searchIds, dogData, isLoading, error, fetchDogData};
+
+    // Return the state variables and fetch function
+    return { searchIds, dogData, isLoading, error, fetchDogData };
 };

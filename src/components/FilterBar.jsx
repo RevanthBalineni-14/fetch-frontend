@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
 import RangeSlider from "./RangeSlider";
 
+// Constants for pagination and sorting options
 const resultsPaginationNumber = [5, 10, 15, 20, 25];
 const sortInfo = [
   { label: "Ascending by age", value: "age:asc" },
@@ -19,6 +20,7 @@ export default function FilterBar({
   favorites,
   setMatchLoading,
 }) {
+  // State variables
   const [error, setError] = useState(false);
   const [matchError, setMatchError] = useState({ bool: false, message: "" });
   const [searchTerms, setSearchTerms] = useState({
@@ -32,6 +34,7 @@ export default function FilterBar({
   const [breedList, setBreedList] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch breed list on component mount
   useEffect(() => {
     const fetchBreeds = async () => {
       try {
@@ -51,11 +54,13 @@ export default function FilterBar({
     fetchBreeds();
   }, []);
 
+  // Handle changes in search input fields
   const searchChangeHandler = (e) => {
     const { name, value } = e.target;
     setSearchTerms((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle search form submission
   const searchSubmitHandler = (e) => {
     e.preventDefault();
     setError(false);
@@ -76,6 +81,7 @@ export default function FilterBar({
     setSearchParams(searchParams);
   };
 
+  // Handle match submission
   const matchSubmitHandler = async () => {
     if (favorites.length === 0) {
       setMatchError({
@@ -133,6 +139,7 @@ export default function FilterBar({
     setMatchLoading(false);
   };
 
+  // Handle clear button click
   const clearButtonHandler = () => {
     navigate("/dogs");
     setSearchTerms({
@@ -177,6 +184,7 @@ export default function FilterBar({
           marginBottom: "1rem",
         }}
       >
+        {/* Breeds field */}
         <div style={{ flex: "1 1 30%", minWidth: "200px" }}>
           <label
             style={{
@@ -197,6 +205,7 @@ export default function FilterBar({
               border: "1px solid #8A2BE2",
               borderRadius: "6px",
               backgroundColor: "#fff",
+              color: "#000", // Set text color so selected option is visible
             }}
           >
             <option value="">Select Breed</option>
@@ -208,6 +217,7 @@ export default function FilterBar({
           </select>
         </div>
 
+        {/* Zip Code field */}
         <div style={{ flex: "1 1 30%", minWidth: "200px" }}>
           <label
             style={{
@@ -230,6 +240,7 @@ export default function FilterBar({
               border: "1px solid #8A2BE2",
               borderRadius: "6px",
               backgroundColor: "#fff",
+              color: "#000",
             }}
           />
           {error && (
@@ -245,6 +256,7 @@ export default function FilterBar({
           )}
         </div>
 
+        {/* Age Range field */}
         <div style={{ flex: "1 1 30%", minWidth: "200px" }}>
           <label
             style={{
@@ -261,6 +273,7 @@ export default function FilterBar({
           />
         </div>
 
+        {/* Items per page field */}
         <div style={{ flex: "1 1 30%", minWidth: "200px" }}>
           <label
             style={{
@@ -281,6 +294,7 @@ export default function FilterBar({
               border: "1px solid #8A2BE2",
               borderRadius: "6px",
               backgroundColor: "#fff",
+              color: "#000", // Ensure option text is visible
             }}
           >
             <option value="">Select Number</option>
@@ -292,6 +306,7 @@ export default function FilterBar({
           </select>
         </div>
 
+        {/* Sort By field */}
         <div style={{ flex: "1 1 30%", minWidth: "200px" }}>
           <label
             style={{
@@ -312,6 +327,7 @@ export default function FilterBar({
               border: "1px solid #8A2BE2",
               borderRadius: "6px",
               backgroundColor: "#fff",
+              color: "#000", // Ensure option text is visible
             }}
           >
             <option value="">Select Sort</option>
@@ -323,6 +339,7 @@ export default function FilterBar({
           </select>
         </div>
 
+        {/* Submit and clear buttons */}
         <div
           style={{
             display: "flex",
@@ -362,6 +379,7 @@ export default function FilterBar({
         </div>
       </form>
 
+      {/* Match and clear favorites */}
       <div style={{ textAlign: "center" }}>
         <button
           onClick={matchSubmitHandler}

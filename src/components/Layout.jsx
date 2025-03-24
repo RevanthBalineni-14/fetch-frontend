@@ -7,12 +7,14 @@ export default function Layout() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Check if the user is authenticated
     const currUser = auth.getUser();
     console.log("currUser: ", currUser);
+    // If the user is not authenticated, navigate to the login page
     if (!currUser) {
       navigate("/");
     }
-  }, []);
+  }, [navigate]); // Added navigate to dependency array to avoid React warning
 
   return (
     <div
@@ -23,13 +25,11 @@ export default function Layout() {
         margin: 0,
         padding: 0,
         position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
         display: "flex",
         flexDirection: "column",
         overflow: "auto",
+        top: 0,
+        left: 0,
       }}
     >
       <MenuBar />
