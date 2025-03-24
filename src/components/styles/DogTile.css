@@ -1,0 +1,54 @@
+.dog-card {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+  
+  .dog-card:hover {
+    transform: scale(1.03);
+  }
+  
+  .dog-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+  }
+  
+  .dog-info {
+    padding: 15px;
+  }
+  
+  .dog-name {
+    font-size: 1.5rem;
+    color: #5b21b6;
+    margin: 0;
+  }
+  
+  .dog-details {
+    color: #6b7280;
+    margin: 5px 0;
+  }
+  
+  .dog-zipcode {
+    font-style: italic;
+    color: #9ca3af;
+  }
+  
+  .dog-actions {
+    padding: 10px 0;
+  }
+  
+  .favorite-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
